@@ -1,3 +1,16 @@
+
+<h1>Installation Steps</h1>
+<h3>install Composer </h3>
+<p>>>>composer install</p>
+
+<h3>Missing .env file so create and copy contain from .env.example file and save it</h3>
+
+<h3>Generate App_Key</h3>
+<p>>>>php artisan key:generate </p>
+
+<h3>Run Application</h3>
+<p>>>>php artisan serve</p>
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
