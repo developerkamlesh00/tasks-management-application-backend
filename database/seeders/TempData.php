@@ -20,6 +20,7 @@ class TempData extends Seeder
         Organization::create([
             'org_email' => 'crm@gmail.com',
             'org_name' => 'Recruit CRM',
+            'total_projects' => 10,
         ]);
 
         $pass = bcrypt('Admin@123');
