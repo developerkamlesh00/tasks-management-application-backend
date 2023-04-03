@@ -8,6 +8,11 @@
 <h3>Generate App_Key</h3>
 <p>>>>php artisan key:generate </p>
 
+<h3>Install Passport</h3>
+<p>>>>php artisan passport:install</p>
+<p>or</p>
+<p>>>>php artisan passport:install --force</p>
+
 <h3>Run Application</h3>
 <p>>>>php artisan serve</p>
 
