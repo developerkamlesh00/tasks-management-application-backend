@@ -43,6 +43,7 @@ class RegisterOrganization extends Controller
             $resposeArray['token'] = $user->createToken('DirectorToken')->accessToken;
             $resposeArray['name'] = $user->name;
             $resposeArray['role'] = $user->role->role_name;
+            $resposeArray['userId'] = $user->id;
             
             //return response()->json($organization);
             return response()->json($resposeArray, 200);
