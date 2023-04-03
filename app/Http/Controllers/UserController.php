@@ -74,6 +74,7 @@ class UserController extends Controller
             $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
             $resposeArray['name'] = $user->name;
             $resposeArray['role'] = $user->role->role_name;
+            $resposeArray['userId'] = $user->id;
             return response()->json($resposeArray, 200);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 203);
