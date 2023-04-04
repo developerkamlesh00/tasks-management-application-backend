@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-
+use Psy\Readline\Hoa\Console;
 use Validator;
 
 class UserController extends Controller
@@ -68,12 +68,14 @@ class UserController extends Controller
     //login handler
     public function login(Request $request)
     {
+        //return response()->json($request);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $resposeArray = [];
             $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
             $resposeArray['name'] = $user->name;
             $resposeArray['role'] = $user->role->role_name;
+            $resposeArray['userId'] = $user->id;
             return response()->json($resposeArray, 200);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 203);
