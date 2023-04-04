@@ -25,7 +25,7 @@ class CreateTasksTable extends Migration
             $table->unsignedBigInteger('worker_id');
             $table->unsignedBigInteger('project_id');
             $table->foreign('status_id')->references('id')->on('statuses');
-            $table->foreign('worker_id')->references('id')->on('users');
+            $table->foreign('worker_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('project_id')->references('id')->on('projects');
             $table->timestamps();
         });
