@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\RegisterOrganization;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
 Route::post('/register',[UserController::class, 'store']);
 
 Route::post('/login', [UserController::class, 'login']);
@@ -34,3 +36,4 @@ Route::middleware('auth:api')->get('/testapi', function () {
 
 //register Oraganization end point
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
+
