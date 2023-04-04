@@ -25,6 +25,9 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('manager_id');
             $table->foreign('organization_id')->references('id')->on('organizations');
             $table->foreign('manager_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('tasks_completed')->default(0);
+            $table->unsignedBigInteger('total_tasks')->default(0);
             $table->timestamps();
         });
     }
