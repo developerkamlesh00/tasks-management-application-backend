@@ -19,6 +19,11 @@ class AdminController extends Controller
         $organizations = Organization::all();
         return $organizations;
     }
+    public function get_users()
+    {
+        $users = User::all();
+        return $users;
+    }
 
     /**
      * Show the form for creating a new resource.

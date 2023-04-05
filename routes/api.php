@@ -40,6 +40,7 @@ Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 
 // Get organizations,directors,managers,workers,all member of organization
 Route::get('/admin/organizations',[AdminController::class, 'get_organizations']);
+Route::get('/admin/users',[AdminController::class, 'get_users']);
 Route::get('/admin/directors',[AdminController::class, 'get_directors']);
 Route::get('/admin/managers',[AdminController::class, 'get_managers']);
 Route::get('/admin/workers',[AdminController::class, 'get_workers']);
