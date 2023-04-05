@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Psy\Readline\Hoa\Console;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -60,6 +60,14 @@ class UserController extends Controller
         $resposeArray = [];
         $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
         $resposeArray['name'] = $user->name;
+
+
+        /*Email service to be put
+        
+            Mail::to($user->email)->send(
+                new EmployeeCreated($user)
+            )
+        */
 
         return response()->json($resposeArray, 200);
     }
