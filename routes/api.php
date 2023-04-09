@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\RegisterOrganization;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -34,4 +34,10 @@ Route::middleware('auth:api')->get('/testapi', function () {
 
 //register Oraganization end point
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
+
+
+//Registering Manager Dashboard
+
+Route::get('project', [ManagerController::class, 'projects']);
+Route::get('worker', [ManagerController::class, 'workers']);
 
