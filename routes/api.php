@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterOrganization;
 use App\Http\Controllers\UserController;
@@ -22,12 +23,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
 
 //director section apis calls
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
-
 Route::middleware('auth:api')->prefix('/director')->name('director.')->group(function(){
     Route::get('/managers', [UserController::class, 'managers']);
     Route::get('/projects/{org}', [ProjectController::class, 'getprojects'])->name('getprojects');
@@ -35,4 +36,3 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
     Route::post('createproject', [ProjectController::class,'store'])->name('addproject');
     Route::post('updateproject/{projectid}', [ProjectController::class, 'update'])->name('updateproject');
 });
-//end director section apis calls
