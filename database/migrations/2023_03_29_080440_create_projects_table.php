@@ -23,8 +23,8 @@ class CreateProjectsTable extends Migration
             $table->boolean('workers_visibility')->default(false);
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('manager_id');
-            $table->foreign('organization_id')->references('id')->on('organizations');
-            $table->foreign('manager_id')->references('id')->on('users');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+            $table->foreign('manager_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedBigInteger('tasks_completed')->default(0);
             $table->unsignedBigInteger('total_tasks')->default(0);
