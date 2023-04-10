@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+
 class TaskController extends Controller
 {
     /**
@@ -16,6 +18,8 @@ class TaskController extends Controller
         $tasks=Task::all();
         return $tasks;
     }
+
+
     public function worker_tasks($id)
     {
         $tasks=Task::where('worker_id',$id)->get();
@@ -44,6 +48,7 @@ class TaskController extends Controller
         };
         return 'Failure';
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -53,6 +58,7 @@ class TaskController extends Controller
     {
         //
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -63,6 +69,7 @@ class TaskController extends Controller
     {
         //
     }
+
     /**
      * Display the specified resource.
      *
@@ -73,6 +80,7 @@ class TaskController extends Controller
     {
         //
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -83,6 +91,7 @@ class TaskController extends Controller
     {
         //
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -94,6 +103,7 @@ class TaskController extends Controller
     {
         //
     }
+
     /**
      * Remove the specified resource from storage.
      *
