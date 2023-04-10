@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AdminController;
@@ -41,7 +40,6 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
 });
 
 
-<<<<<<<<< Temporary merge branch 1
 //register Oraganization end point
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 
@@ -57,7 +55,7 @@ Route::get('/admin/organizations/{id}/members',[AdminController::class, 'get_org
 //Delete user
 Route::post('/admin/users/{id}', [AdminController::class, 'destroy']);
    
-=========
+
 // Not to be used
 Route::get('/tasks',[TaskController::class, 'all_tasks']);
 // Get all tasks of a worker (from all projects)
@@ -68,4 +66,3 @@ Route::get('/project/{project_id}/tasks',[TaskController::class, 'project_tasks'
 Route::get('/worker/{worker_id}/project/{project_id}/tasks',[TaskController::class, 'worker_project_tasks']);
 // Change Task Status
 Route::post('update_status/task/{task_id}/status/{status_id}',[TaskController::class, 'update_status']);
->>>>>>>>> Temporary merge branch 2
