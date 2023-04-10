@@ -21,8 +21,9 @@ class CreateProjectsTable extends Migration
             $table->timestamp('estimated_deadline')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->boolean('workers_visibility')->default(false);
-            $table->unsignedBigInteger('organization_id');
-            $table->unsignedBigInteger('manager_id');
+            
+            $table->unsignedBigInteger('organization_id')->index();;
+            $table->unsignedBigInteger('manager_id')->index();;
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->foreign('manager_id')->references('id')->on('users')->onDelete('cascade');
 
