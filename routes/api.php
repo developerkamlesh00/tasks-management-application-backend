@@ -32,7 +32,7 @@ Route::get('/login', [UserController::class, 'login'])->name('login'); //if not 
 //director section apis calls
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 Route::middleware('auth:api')->prefix('/director')->name('director.')->group(function(){
-    Route::get('/managers', [UserController::class, 'managers']);
+    Route::get('/managers/{org}', [UserController::class, 'managers']);
     Route::get('/projects/{org}', [ProjectController::class, 'getprojects'])->name('getprojects');
     Route::post('register', [UserController::class, 'store']);
     Route::post('createproject', [ProjectController::class,'store'])->name('addproject');
