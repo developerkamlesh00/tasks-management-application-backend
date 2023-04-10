@@ -9,9 +9,18 @@ class Project extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'assigned_at',
+        'estimated_deadline',
+        'organization_id',
+        'manager_id',
+    ];
+
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User','manager_id');
     }
 
     public function organization()
