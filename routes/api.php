@@ -37,19 +37,21 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
     Route::post('register', [UserController::class, 'store']);
     Route::post('createproject', [ProjectController::class,'store'])->name('addproject');
     Route::post('updateproject/{projectid}', [ProjectController::class, 'update'])->name('updateproject');
+
+    Route::post('/import',[UserController::class,'import'])->name('import');
 });
 
 
 //register Oraganization end point
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
-
+Route::middleware('auth:api')->prefix('/admin')->name('admin.')->group(function(){
 // Get organizations,directors,managers,workers,all member of organization
-Route::get('/admin/organizations',[AdminController::class, 'get_organizations']);
-Route::get('/admin/directors',[AdminController::class, 'get_directors']);
-Route::get('/admin/managers',[AdminController::class, 'get_managers']);
-Route::get('/admin/workers',[AdminController::class, 'get_workers']);
-Route::get('/admin/organizations/{id}/members',[AdminController::class, 'get_organization_members']);
-
+Route::get('/organizations',[AdminController::class, 'get_organizations']);
+Route::get('/directors',[AdminController::class, 'get_directors']);
+Route::get('/managers',[AdminController::class, 'get_managers']);
+Route::get('/workers',[AdminController::class, 'get_workers']);
+Route::get('/organizations/{id}/members',[AdminController::class, 'get_organization_members']);
+});
 // Route::get('/admin/users',[AdminController::class, 'get_users']);
 
 //Delete user
