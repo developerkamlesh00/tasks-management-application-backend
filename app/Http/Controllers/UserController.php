@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
-use App\Models\User;
-use Exception;
-use Illuminate\Http\Request;
+// use App\Events\UserCreated as EventsUserCreated;
+use App\Mail\UserCreated;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Psy\Readline\Hoa\Console;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class UserController extends Controller
@@ -42,20 +42,25 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'organization_id' => 'required',
             'role_id' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 202);
+            return response()->json($validator->errors(), 400);
         }
 
+
         $input = $request->all();
+        $temppass = $input['password'];
         $input['password'] = bcrypt($input['password']);
 
         $user = User::create($input);
+
+        //return $user;
+        Mail::to($user)->queue(new UserCreated($user,$temppass)); //for email sending
 
         $resposeArray = [];
         $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
@@ -76,6 +81,7 @@ class UserController extends Controller
             $resposeArray['name'] = $user->name;
             $resposeArray['role'] = $user->role->role_name;
             $resposeArray['userId'] = $user->id;
+            $resposeArray['organization_id'] = $user->organization_id;
             return response()->json($resposeArray, 200);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 203);
@@ -83,6 +89,10 @@ class UserController extends Controller
     }
 
 
+    public function managers(){
+        $user = User::where('role_id','=',3)->get();
+        return response()->json($user);
+    }
 
     /**
      * Display the specified resource.
