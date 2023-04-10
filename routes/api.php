@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RegisterOrganization;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,15 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
     Route::post('createproject', [ProjectController::class,'store'])->name('addproject');
     Route::post('updateproject/{projectid}', [ProjectController::class, 'update'])->name('updateproject');
 });
+
+
+// Not to be used
+Route::get('/tasks',[TaskController::class, 'all_tasks']);
+// Get all tasks of a worker (from all projects)
+Route::get('/worker/{worker_id}/tasks',[TaskController::class, 'worker_tasks']);
+// Get all tasks of a particular project - For a manager
+Route::get('/project/{project_id}/tasks',[TaskController::class, 'project_tasks']);
+// Get all tasks belonging to one project - For a worker
+Route::get('/worker/{worker_id}/project/{project_id}/tasks',[TaskController::class, 'worker_project_tasks']);
+// Change Task Status
+Route::post('update_status/task/{task_id}/status/{status_id}',[TaskController::class, 'update_status']);
