@@ -33,36 +33,41 @@ class AdminController extends Controller
     public function get_directors()
     {
         $directors = DB::table('users')
-                    ->where('role_id' , '=', '2')
-                    ->get();
+            ->where('role_id', '=', '2')
+            ->get();
         return $directors;
     }
 
     public function get_managers()
     {
         $managers = DB::table('users')
-                    ->where('role_id' , '=', '3')
-                    ->get();
+            ->where('role_id', '=', '3')
+            ->get();
         return $managers;
     }
 
     public function get_workers()
     {
         $workers = DB::table('users')
-                    ->where('role_id' , '=', '4')
-                    ->get();
+            ->where('role_id', '=', '4')
+            ->get();
         return $workers;
     }
 
     public function get_organization_members($organization_id)
     {
         $members = DB::table('users')
-                ->where('organization_id', '=', $organization_id)
-                ->get();
+            ->where('organization_id', '=', $organization_id)
+            ->get();
         return $members;
     }
 
-    
+    public function total_users()
+    {
+        $total_users = User::count();
+        return $total_users;
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -118,12 +123,12 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-    if (!$user) {
-        return response()->json(['message' => 'User not found.'], 404);
-    }
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
 
-    $user->delete();
+        $user->delete();
 
-    return response()->json(['message' => 'User deleted successfully.']);
+        return response()->json(['message' => 'User deleted successfully.']);
     }
 }
