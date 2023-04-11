@@ -62,10 +62,28 @@ class AdminController extends Controller
         return $members;
     }
 
-    public function total_users()
+    public function recent_users(){
+        $recentUsers = User::orderBy('created_at', 'desc')->take(10)->get();
+        return @$recentUsers;
+    }
+
+    public function user_data()
     {
         $total_users = User::count();
-        return $total_users;
+        $total_admins = User::where('role_id', '=', '1')->count();
+        $total_directors = User::where('role_id', '=', '2')->count();
+        $total_managers = User::where('role_id', '=', '3')->count();
+        $total_workers = User::where('role_id', '=', '4')->count();
+
+        $data = [
+            'total_users' => $total_users,
+            'total_admins' => $total_admins,
+            'total_directors' => $total_directors,
+            'total_managers' => $total_managers,
+            'total_workers' => $total_workers,
+        ];
+
+        return response()->json($data);
     }
 
 
