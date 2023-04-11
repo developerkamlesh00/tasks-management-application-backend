@@ -89,10 +89,13 @@ class UserController extends Controller
     }
 
 
-    public function managers(){
-        $user = User::where('role_id','=',3)->get();
+    public function managers($org){
+        $user = User::where('role_id','=',3)->where("organization_id","=",$org)->get();
         return response()->json($user);
     }
+    // public function getProjects($org){
+    //     return Project::with('user')->where("organization_id","=",$org)->get();
+    // }
 
     /**
      * Display the specified resource.
