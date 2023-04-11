@@ -66,3 +66,6 @@ Route::get('/project/{project_id}/tasks',[TaskController::class, 'project_tasks'
 Route::get('/worker/{worker_id}/project/{project_id}/tasks',[TaskController::class, 'worker_project_tasks']);
 // Change Task Status
 Route::post('update_status/task/{task_id}/status/{status_id}',[TaskController::class, 'update_status']);
+
+//Comments for a particular Task
+Route::get('task/{task_id}/comments',[CommentController::class, 'task_comments']);
