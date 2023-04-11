@@ -28,4 +28,11 @@ class ManagerController extends Controller
         return $workers;
     }
 
+    public function single_project(Request $request){
+        $project_id = $request->query('id');
+
+        $project = DB::table('projects')->where('id', $project_id)->get();
+        return $project;    
+    }
+
 }

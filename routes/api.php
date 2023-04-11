@@ -40,4 +40,8 @@ Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 
 Route::get('project', [ManagerController::class, 'projects']);
 Route::get('worker', [ManagerController::class, 'workers']);
+Route::get('single_worker', [ManagerController::class, 'single_worker']);
+Route::get('single_project', [ManagerController::class, 'single_project']);
+
+
 
