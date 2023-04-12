@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Mail\UserCreated;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -69,6 +70,27 @@ class UserController extends Controller
         return response()->json($resposeArray, 200);
     }
 
+    //bulk registration 
+    public function bulkregistrations(Request $request){
+      try{
+          $data = $request->getContent();
+          $data_json = json_decode($data, true);
+          foreach ($data_json as $user) {
+              $insertuser = User::make();
+              $insertuser->name = $user['name'];
+              $insertuser->email = $user['email'];
+              $insertuser->password = bcrypt($user['password']);
+              $insertuser->role_id = $user['role_id'];
+              $insertuser->organization_id = $user['organization_id'];
+              $insertuser->save();
+          }
+          return response("Done");
+      }catch(Exception $e){
+        return response("Data Duplicate or may not be formatted....please provide like this 'name,email,password,role'",404);
+      }
+
+    }
+
 
     //login handler
     public function login(Request $request)
@@ -91,6 +113,11 @@ class UserController extends Controller
 
     public function managers($org){
         $user = User::where('role_id','=',3)->where("organization_id","=",$org)->get();
+        return response()->json($user);
+    }
+
+    public function workers($org){
+        $user = User::where('role_id','=',4)->where("organization_id","=",$org)->get();
         return response()->json($user);
     }
     // public function getProjects($org){
