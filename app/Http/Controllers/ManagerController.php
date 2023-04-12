@@ -35,4 +35,11 @@ class ManagerController extends Controller
         return $project;    
     }
 
+    public function tasks(Request $request){
+        $project_id = $request->query('id');
+
+        $tasks = DB::table('tasks')->where('project_id', $project_id)->get();
+        return $tasks;
+        
+    }
 }
