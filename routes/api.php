@@ -35,15 +35,15 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
     Route::get('/managers/{org}', [UserController::class, 'managers']);
     Route::get('/projects/{org}', [ProjectController::class, 'getprojects'])->name('getprojects');
     Route::post('register', [UserController::class, 'store']);
+    Route::post('bulkregister',[UserController::class, 'bulkregistrations']);
     Route::post('createproject', [ProjectController::class,'store'])->name('addproject');
     Route::post('updateproject/{projectid}', [ProjectController::class, 'update'])->name('updateproject');
-
-    Route::post('/import',[UserController::class,'import'])->name('import');
+    Route::get("project/{project}" , [ProjectController::class , 'destroy']);
+    Route::get('workers/{org}', [UserController::class, 'workers']);
+    //Route::post('/import',[UserController::class,'import'])->name('import');
 });
 
 
-//register Oraganization end point
-Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 Route::middleware('auth:api')->prefix('/admin')->name('admin.')->group(function(){
 // Get organizations,directors,managers,workers,all member of organization
 Route::get('/organizations',[AdminController::class, 'get_organizations']);
