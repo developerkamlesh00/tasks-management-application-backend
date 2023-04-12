@@ -21,7 +21,7 @@ class ProjectFactory extends Factory
             'description' => $this->faker->paragraph(2,true),
             'organization_id' => 2,
             'manager_id' => $this->faker->numberBetween(3,12),
-            'tasks_completed' => 0,
+            'tasks_completed' => $this->faker->numberBetween(10,30),
         ];
 
     }

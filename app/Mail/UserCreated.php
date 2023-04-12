@@ -8,21 +8,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeCreated extends Mailable
+class UserCreated extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $user;
+    public $password;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($user , $password)
     {
         $this->user = $user;
-        
+        $this->password = $password;
     }
 
     /**
@@ -32,7 +33,6 @@ class EmployeeCreated extends Mailable
      */
     public function build()
     {
-        $subject="Hello1";
-        return $this->subject($subject)->view('emails.employeecreate.created');
+        return $this->view('emails.usercreated');
     }
 }

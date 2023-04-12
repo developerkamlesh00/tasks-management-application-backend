@@ -14,10 +14,19 @@ class TaskFactory extends Factory
 
     public function definition()
     {
+        $assigned=$this->faker->dateTimeBetween('-3 months','now');
+        $status=$this->faker->numberBetween(1,4);
+        $completed=NULL;
+        if($status==4){
+            $completed=$this->faker->dateTimeBetween($assigned,'now');
+        }
         return [
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->paragraph(2,true),
-            'status_id' => 1,
+            'assigned_at'=>$assigned,
+            'estimated_deadline'=>$this->faker->dateTimeBetween($assigned,'2 weeks'),
+            'completed_at'=>$completed,
+            'status_id' => $status,
             'worker_id' => $this->faker->numberBetween(13,62),
         ];
     }

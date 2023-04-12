@@ -7,7 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Validator;
 
 class RegisterOrganization extends Controller
 {
@@ -17,14 +17,14 @@ class RegisterOrganization extends Controller
 
         $validator = Validator::make($request->all(), [
             'org_name' => 'required',
-            'org_email' => 'required|email',
+            'org_email' => 'required|email|unique:organizations,org_email',
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 202);
+            return response()->json($validator->errors(), 400);
         }
 
         try {

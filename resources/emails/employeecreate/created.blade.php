@@ -1,2 +1,0 @@
-<p>Sample Email</p>
-

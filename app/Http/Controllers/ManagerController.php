@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -41,5 +42,66 @@ class ManagerController extends Controller
         $tasks = DB::table('tasks')->where('project_id', $project_id)->get();
         return $tasks;
         
+    }
+
+    public function add_task(Request $request){
+        //return ["Result"=>"data has been saved"];
+       //return $request;
+        $task = new Task;
+       
+        $task['title'] = $request->title;
+        $task['description'] = $request->description;
+        $task['worker_id'] = $request->workerId;
+        $task['assigned_at'] = $request->assignedDate;
+        $task['estimated_deadline'] = $request->estimatedDeadline;
+        $task['review_passed'] = 0;
+        $task['status_id'] = 1;
+        $task['project_id'] =$request->projectId;
+        $result = $task->save();
+
+        if($result){
+            return ["status"=> "Your data has been saved"];
+        }
+        else{
+            return ["status"=> "operation failed"];
+        }
+
+
+    }
+
+        public function edit_task(Request $request){
+            $task = Task::find($request->id);
+            $task['title'] = $request->title;
+            $task['description'] = $request->description;
+            $task['worker_id'] = $request->workerId;
+            $task['assigned_at'] = $request->assignedDate;
+            $task['estimated_deadline'] = $request->estimatedDeadline;
+            $task['review_passed'] = 0;
+
+            $result = $task->save();
+
+
+        //return ["Result"=>"data has been saved"];
+       //return $request;
+        /*$task = new Task;
+       
+        $task['title'] = $request->title;
+        $task['description'] = $request->description;
+        $task['worker_id'] = $request->workerId;
+        $task['assigned_at'] = $request->assignedDate;
+        $task['estimated_deadline'] = $request->estimatedDeadline;
+        $task['review_passed'] = 0;
+        $task['status_id'] = 1;
+        $task['project_id'] =$request->projectId;
+        $result = $task->save();
+*/
+        if($result){
+            return ["status"=> "Your data has been updated"];
+        }
+        else{
+            return ["status"=> "operation failed"];
+        }
+
+
     }
 }
