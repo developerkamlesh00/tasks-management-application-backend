@@ -104,4 +104,21 @@ class ManagerController extends Controller
 
 
     }
+    public function delete_task(Request $request){
+       //return $request->id;
+        
+        $task=Task::find($request->id);
+        $result =$task->delete();
+
+        if($result){
+            return ["status"=> "The task has been deleted"];
+        }
+        else{
+            return ["status"=> "operation failed"];
+        }
+
+
+    }
+
+
 }
