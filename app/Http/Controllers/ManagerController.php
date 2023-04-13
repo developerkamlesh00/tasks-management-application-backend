@@ -36,12 +36,25 @@ class ManagerController extends Controller
         return $project;    
     }
 
+    public function single_worker(Request $request){
+        $worker_id = $request->query('id');
+
+        $worker = DB::table('users')->where('id', $worker_id)->get();
+        return $worker;    
+    }
+
+    public function get_assigned_tasks(Request $request){
+       $id= $request->id;
+        $assigned_tasks=DB::table('tasks')->where('worker_id', $id)->get();
+        return $assigned_tasks;
+
+    }
+
     public function tasks(Request $request){
         $project_id = $request->query('id');
 
         $tasks = DB::table('tasks')->where('project_id', $project_id)->get();
-        return $tasks;
-        
+        return $tasks;        
     }
 
     public function add_task(Request $request){
@@ -118,5 +131,17 @@ class ManagerController extends Controller
         }
     }
 
-
+    public function review_task(Request $request){
+        //return $request->id;
+        $manager_id= $request->id;
+        $assigned_projects=Project::all()->where('manager_id', $manager_id); 
+        $assigned_tasks=[];
+        foreach($assigned_projects as $assigned_project){
+            $assigned_temp_tasks=Task::all()->where('project_id', $assigned_project->id);
+            //$assigned_tasks=$assigned_temp_tasks
+            $assigned_tasks[]=array($assigned_temp_tasks);
+        }
+        //$assigned_tasks=DB::table('tasks')->where('worker_id', $id)->get();
+        return $assigned_tasks;
+    }
 }

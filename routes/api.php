@@ -85,3 +85,6 @@ Route::get('tasks', [ManagerController::class, 'tasks']);
 Route::post('add_task', [ManagerController::class, 'add_task'] );
 Route::put('edit_task', [ManagerController::class, 'edit_task'] );
 Route::delete('delete_task/{id}', [ManagerController::class, 'delete_task'] );
+
+Route::get('assigned_tasks', [ManagerController::class, 'get_assigned_tasks']);
+Route::get('review_tasks', [ManagerController::class, 'review_task']);
