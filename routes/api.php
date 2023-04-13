@@ -28,7 +28,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
-
+Route::post('/forgot',[UserController::class, 'forgot']);
+Route::post('/resetpassword',[UserController::class, 'resetPassword']);
 //director section apis calls
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 Route::middleware('auth:api')->prefix('/director')->name('director.')->group(function(){
