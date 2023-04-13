@@ -70,6 +70,7 @@ class ManagerController extends Controller
     }
 
         public function edit_task(Request $request){
+            //return $request->id;
             $task = Task::find($request->id);
             $task['title'] = $request->title;
             $task['description'] = $request->description;
@@ -104,10 +105,9 @@ class ManagerController extends Controller
 
 
     }
-    public function delete_task(Request $request){
-       //return $request->id;
+    public function delete_task($id){
         
-        $task=Task::find($request->id);
+        $task=Task::find($id);
         $result =$task->delete();
 
         if($result){
@@ -116,8 +116,6 @@ class ManagerController extends Controller
         else{
             return ["status"=> "operation failed"];
         }
-
-
     }
 
 
