@@ -137,11 +137,42 @@ class ManagerController extends Controller
         $assigned_projects=Project::all()->where('manager_id', $manager_id); 
         $assigned_tasks=[];
         foreach($assigned_projects as $assigned_project){
-            $assigned_temp_tasks=Task::all()->where('project_id', $assigned_project->id);
+            $assigned_temp_tasks=Task::all()->where('project_id', $assigned_project->id)->where('status_id',3);
             //$assigned_tasks=$assigned_temp_tasks
             $assigned_tasks[]=array($assigned_temp_tasks);
         }
         //$assigned_tasks=DB::table('tasks')->where('worker_id', $id)->get();
         return $assigned_tasks;
     }
+
+    public function approve_task(Request $request){
+        $task = Task::find($request->id);
+
+        $task['status_id']=4;
+
+        $result = $task->save();
+
+        if($result){
+            return ["status"=>"task approved successfully"];
+        }
+        else{
+            return ["status"=>"operation failed"];
+        }
+
+
+    } 
+    public function reject_task(Request $request){
+        $task = Task::find($request->id);
+
+        $task['status_id']=1;
+
+        $result = $task->save();
+
+        if($result){
+            return ["status"=>"task rejected successfully"];
+        }
+        else{
+            return ["status"=>"operation failed"];
+        }
+    } 
 }

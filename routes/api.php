@@ -88,3 +88,6 @@ Route::delete('delete_task/{id}', [ManagerController::class, 'delete_task'] );
 
 Route::get('assigned_tasks', [ManagerController::class, 'get_assigned_tasks']);
 Route::get('review_tasks', [ManagerController::class, 'review_task']);
+Route::put('approve_task', [ManagerController::class, 'approve_task']);
+Route::put('reject_task', [ManagerController::class, 'reject_task']);
+
