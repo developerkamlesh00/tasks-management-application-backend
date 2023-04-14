@@ -64,7 +64,7 @@ class UserController extends Controller
         $user = User::create($input);
 
         //return $user;
-        Mail::to($user)->queue(new UserCreated($user,$temppass)); //for email sending
+        Mail::to($user)->queue(new UserCreated($user->name,$user->email,$temppass)); //for email sending
 
         $resposeArray = [];
         $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
@@ -86,6 +86,7 @@ class UserController extends Controller
               $insertuser->role_id = $user['role_id'];
               $insertuser->organization_id = $user['organization_id'];
               $insertuser->save();
+              //Mail::to($user['email'])->queue(new UserCreated($user['name'],$user['email'],$user['password'])); //for email sending
           }
           return response("Done");
       }catch(Exception $e){
@@ -134,7 +135,7 @@ class UserController extends Controller
                     'email' => $email,
                     'token' => $token,
                 ]);
-                //Mail::to($user)->send(new ForgotPassMail($user->name, $token)); //email sending
+                Mail::to($user)->send(new ForgotPassMail($user->name, $token)); //email sending
 
                 return response([
                     'message' => 'Reset Password Link Send to Your Register Email Address'
