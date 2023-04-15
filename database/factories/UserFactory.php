@@ -36,7 +36,7 @@ class UserFactory extends Factory
         ];
 
     }
-    //for workers
+    // For creating workers
     public function stateMethod(){
         return $this->state(
             [

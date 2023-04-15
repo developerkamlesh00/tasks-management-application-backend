@@ -2,30 +2,26 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserCreated extends Mailable implements ShouldQueue
+class PasswordSend extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $username;
-    public $email;
     public $password;
-
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($username, $email, $password)
+    public function __construct($user, $password)
     {
-        $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
+        $this->user = $user;
+        $this->password =  $password; 
     }
 
     /**
@@ -35,6 +31,6 @@ class UserCreated extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.usercreated');
+        return $this->view('emails.passwordsend');
     }
 }
