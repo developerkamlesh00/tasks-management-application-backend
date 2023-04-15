@@ -44,6 +44,8 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
     Route::get('workers/{org}', [UserController::class, 'workers']);
     Route::get('organization/{org}', [OrganizationController::class,'getOrganization']);
     Route::post('updateorg', [OrganizationController::class, 'updateOrganization']);
+    Route::get('getuser/{id}',[UserController::class,'getUser']);
+    Route::post('updateuser/{id}', [UserController::class,'update']);
     //Route::post('/import',[UserController::class,'import'])->name('import');
 });
 

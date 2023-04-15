@@ -191,6 +191,11 @@ class UserController extends Controller
         $user = User::where('role_id','=',4)->where("organization_id","=",$org)->get();
         return response()->json($user);
     }
+
+    public function getUser($id){
+        $user = User::findOrFail($id);
+        return response()->json($user);
+    }
     // public function getProjects($org){
     //     return Project::with('user')->where("organization_id","=",$org)->get();
     // }
@@ -226,7 +231,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'name' => 'required',
+            'email' => 'required|email',
+
+        ]);
+        if ($validate->fails()) {
+            return response()->json($validate->errors(), 400);
+        }
+        
+        $input = $request->all();
+        if(DB::table('users')->where('id','!=',$id)->where('email',$input['email'])->exists()){
+            return response()->json(['message' => 'This Email Alredy Exist for another user'], 400);
+        }
+
+        if(!DB::table('users')->where('id',$id)->exists()){
+            return response()->json(['message' => "User id Doesn't Exits"], 400);
+        }
+
+        $user = DB::table('users')->where('id',$id)->update(['name'=>$request->name, 'email'=> $request->email]);
+        return response()->json($user, 200);
     }
 
     /**
