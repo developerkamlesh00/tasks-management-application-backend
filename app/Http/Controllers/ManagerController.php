@@ -205,10 +205,11 @@ class ManagerController extends Controller
     
     public function worker_names(Request $request){
         //return $request->id;
-       /* $organisation_id = User::select('organization_id')->where('id',$request->id)->pluck();
-        return $organisation_id;
+        $organisation_id = User::where('id',$request->id)->value('organization_id');
+        //return $organisation_id;
+        
         $worker_names = User::select('name')->where('organization_id',$organisation_id)->where('role_id', 4)->get();
         //$worker_names = DB::table('users')->select('name')->where('id', $request->id)->where('role_id', 4)->get();
-        return $worker_names;*/
+        return $worker_names;
     }
 }
