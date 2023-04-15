@@ -4,6 +4,7 @@
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RegisterOrganization;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -29,22 +30,27 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
-
+Route::post('/forgot',[UserController::class, 'forgot']);
+Route::post('/resetpassword',[UserController::class, 'resetPassword']);
 //director section apis calls
 Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 Route::middleware('auth:api')->prefix('/director')->name('director.')->group(function(){
     Route::get('/managers/{org}', [UserController::class, 'managers']);
     Route::get('/projects/{org}', [ProjectController::class, 'getprojects'])->name('getprojects');
     Route::post('register', [UserController::class, 'store']);
+    Route::post('bulkregister',[UserController::class, 'bulkregistrations']);
     Route::post('createproject', [ProjectController::class,'store'])->name('addproject');
     Route::post('updateproject/{projectid}', [ProjectController::class, 'update'])->name('updateproject');
-
-    Route::post('/import',[UserController::class,'import'])->name('import');
+    Route::get("project/{project}" , [ProjectController::class , 'destroy']);
+    Route::get('workers/{org}', [UserController::class, 'workers']);
+    Route::get('organization/{org}', [OrganizationController::class,'getOrganization']);
+    Route::post('updateorg', [OrganizationController::class, 'updateOrganization']);
+    Route::get('getuser/{id}',[UserController::class,'getUser']);
+    Route::post('updateuser/{id}', [UserController::class,'update']);
+    //Route::post('/import',[UserController::class,'import'])->name('import');
 });
 
 
-//register Oraganization end point
-Route::post('/orgregister', [RegisterOrganization::class, 'register']);
 Route::middleware('auth:api')->prefix('/admin')->name('admin.')->group(function(){
 // Get organizations,directors,managers,workers,all member of organization
 Route::get('/organizations',[AdminController::class, 'get_organizations']);

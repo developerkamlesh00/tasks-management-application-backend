@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
+use App\Models\User;
+use App\Mail\ProjectCreated;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Nette\Utils\Json;
 use Validator;
 
 class ProjectController extends Controller
@@ -51,6 +54,12 @@ class ProjectController extends Controller
         }
 
         $input = $request->all();
+
+        //uncomment when project is completed
+        // $user = User::findOrFail($input['manager_id']);
+        // Mail::to($user)->queue(new ProjectCreated($input, $user)); //for email sending
+
+
         Project::create($input);
         return response()->json("Project Created", 200);
     }
@@ -131,6 +140,11 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        if($project){
+            $project->delete();
+            return response()->json(['message' => 'Successfully Deleted'], 200);
+        }else{
+            return response()->json(['message' => 'Project Not Found.'], 404);
+        }
     }
 }

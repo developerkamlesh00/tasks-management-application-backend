@@ -2,30 +2,26 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserCreated extends Mailable implements ShouldQueue
+class ForgotPassMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $token;
     public $username;
-    public $email;
-    public $password;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($username, $email, $password)
+    public function __construct($username,$token)
     {
+        $this->token = $token;
         $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
     }
 
     /**
@@ -35,6 +31,6 @@ class UserCreated extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.usercreated');
+        return $this->view('emails.forgotpasswordlink')->subject('Password Reset Link');
     }
 }
