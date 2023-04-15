@@ -36,6 +36,26 @@ class ManagerController extends Controller
         return $project;    
     }
 
+    public function update_project_tasks(Request $request){
+        //return $request->id;
+
+        $project = Project::find($request->id);
+        $total_tasks = Task::all()->where('project_id', $request->id)->count();
+        $completed_tasks = Task::all()->where('project_id', $request->id)->where('status_id', 4)->count();
+        $project['total_tasks']= $total_tasks;
+        $project['tasks_completed']= $completed_tasks;
+
+        $result = $project->save();
+        
+
+        if($result){
+            return ["status"=> "Your tasks have been updated"];
+        }
+        else{
+            return ["status"=> "operation failed"];
+        }
+    }
+
     public function single_worker(Request $request){
         $worker_id = $request->query('id');
 
@@ -72,7 +92,11 @@ class ManagerController extends Controller
         $task['project_id'] =$request->projectId;
         $result = $task->save();
 
-        if($result){
+        $project = Project::find($request->projectId);
+        $project['total_tasks'] = $project['total_tasks']+1;
+
+        $result2=$project->save();
+        if($result && $result2){
             return ["status"=> "Your data has been saved"];
         }
         else{
@@ -131,6 +155,8 @@ class ManagerController extends Controller
         }
     }
 
+   
+
     public function review_task(Request $request){
         //return $request->id;
         $manager_id= $request->id;
@@ -149,6 +175,7 @@ class ManagerController extends Controller
         $task = Task::find($request->id);
 
         $task['status_id']=4;
+        $task['review_passed']=1;
 
         $result = $task->save();
 

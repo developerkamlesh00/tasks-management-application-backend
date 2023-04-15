@@ -80,6 +80,7 @@ Route::get('project', [ManagerController::class, 'projects']);
 Route::get('worker', [ManagerController::class, 'workers']);
 Route::get('single_worker', [ManagerController::class, 'single_worker']);
 Route::get('single_project', [ManagerController::class, 'single_project']);
+Route::put('update_project_tasks', [ManagerController::class, 'update_project_tasks']);
 Route::get('tasks', [ManagerController::class, 'tasks']);
 
 Route::post('add_task', [ManagerController::class, 'add_task'] );
@@ -90,4 +91,5 @@ Route::get('assigned_tasks', [ManagerController::class, 'get_assigned_tasks']);
 Route::get('review_tasks', [ManagerController::class, 'review_task']);
 Route::put('approve_task', [ManagerController::class, 'approve_task']);
 Route::put('reject_task', [ManagerController::class, 'reject_task']);
+
 
