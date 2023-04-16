@@ -35,6 +35,10 @@ class TempData extends Seeder
             'role_id' => 2,
         ]);
         
+
+        User::factory()->count(10)->create(); //10 managers
+        User::factory()->count(50)->stateMethod()->create(); //50 workers
+
         User::create([
             'name' => 'Manager',
             'email' => 'manager@gmail.com',
@@ -50,9 +54,6 @@ class TempData extends Seeder
             'organization_id' => 2,
             'role_id' => 4,
         ]);
-
-        User::factory()->count(10)->create(); //10 managers
-        User::factory()->count(50)->stateMethod()->create(); //50 workers
 
         Project::factory()->count(10)->stateMethod(30)->create(); //created 10 Projects
 

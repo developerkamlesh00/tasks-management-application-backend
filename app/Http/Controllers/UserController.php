@@ -69,6 +69,7 @@ class UserController extends Controller
         $resposeArray = [];
         $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
         $resposeArray['name'] = $user->name;
+        $resposeArray['userId'] = $user->id;
 
         return response()->json($resposeArray, 200);
     }
@@ -99,7 +100,7 @@ class UserController extends Controller
     //login handler
     public function login(Request $request)
     {
-        //return response()->json($request);
+        // return response()->json($request,200);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $resposeArray = [];
@@ -138,7 +139,8 @@ class UserController extends Controller
                 Mail::to($user)->send(new ForgotPassMail($user->name, $token)); //email sending
 
                 return response([
-                    'message' => 'Reset Password Link Send to Your Register Email Address'
+                    'message' => 'Reset Password Link Send to Your Register Email Address',
+                    'token' => $token,
                 ],200);
 
             }catch(Exception $exception){
