@@ -183,12 +183,12 @@ class UserController extends Controller
 
     // fetach managers
     public function managers($org){
-        $user = User::where('role_id','=',3)->where("organization_id","=",$org)->get();
+        $user = User::with('organization')->where('role_id','=',3)->where("organization_id","=",$org)->get();
         return response()->json($user);
     }
 
     public function workers($org){
-        $user = User::where('role_id','=',4)->where("organization_id","=",$org)->get();
+        $user = User::with('organization')->where('role_id','=',4)->where("organization_id","=",$org)->get();
         return response()->json($user);
     }
 

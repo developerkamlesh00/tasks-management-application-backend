@@ -27,5 +27,8 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
         <server name="TELESCOPE_ENABLED" value="false"/>
+
+        <!-- for testing purpose we create one simple another testing db -->
+        <server name="DB_CONNECTION" value="sqlite_testing"/>
     </php>
 </phpunit>
