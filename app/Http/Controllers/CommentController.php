@@ -20,7 +20,7 @@ class CommentController extends Controller
     }
 
     public function task_comments($task_id){
-        $comments=Comment::where('task_id' , '=', $task_id)->get();
+        $comments=Comment::with('user')->where('task_id' , '=', $task_id)->orderBy('created_at','DESC')->get();
         return $comments;
     }
     /**
