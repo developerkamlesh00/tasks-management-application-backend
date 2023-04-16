@@ -93,6 +93,7 @@ Route::get('project', [ManagerController::class, 'projects']);
 Route::get('worker', [ManagerController::class, 'workers']);
 Route::get('single_worker', [ManagerController::class, 'single_worker']);
 Route::get('single_project', [ManagerController::class, 'single_project']);
+//Route::get('single_task', [ManagerController::class, 'single_task']);
 Route::put('update_project_tasks', [ManagerController::class, 'update_project_tasks']);
 Route::get('tasks', [ManagerController::class, 'tasks']);
 

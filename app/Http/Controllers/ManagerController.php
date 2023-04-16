@@ -36,6 +36,15 @@ class ManagerController extends Controller
         return $project;    
     }
 
+
+    /*public function single_task(Request $request){
+        $task_id = $request->query('id');
+
+        $task = DB::table('tasks')->where('id', $task_id)->get();
+        return $task;    
+    }*/
+
+
     public function update_project_tasks(Request $request){
         //return $request->id;
 
@@ -208,7 +217,7 @@ class ManagerController extends Controller
         $organisation_id = User::where('id',$request->id)->value('organization_id');
         //return $organisation_id;
         
-        $worker_names = User::select('name')->where('organization_id',$organisation_id)->where('role_id', 4)->get();
+        $worker_names = User::select('id','name')->where('organization_id',$organisation_id)->where('role_id', 4)->get();
         //$worker_names = DB::table('users')->select('name')->where('id', $request->id)->where('role_id', 4)->get();
         return $worker_names;
     }
