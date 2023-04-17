@@ -136,7 +136,7 @@ class UserController extends Controller
                     'email' => $email,
                     'token' => $token,
                 ]);
-                Mail::to($user)->send(new ForgotPassMail($user->name, $token)); //email sending
+                Mail::to($user)->queue(new ForgotPassMail($user->name, $token)); //email sending
 
                 return response([
                     'message' => 'Reset Password Link Send to Your Register Email Address',
