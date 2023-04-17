@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
@@ -89,6 +90,14 @@ class ManagerController extends Controller
     public function add_task(Request $request){
         //return ["Result"=>"data has been saved"];
        //return $request;
+
+      /* $request->validate([
+        'title'=>'required|min:5|max:30',
+        'description'=>'required|min:5|max:30',
+        'assigned_at'=>'required',
+        'estimated_deadline'=>'required',
+        'worker_id'=>'required',
+       ]);*/
         $task = new Task;
        
         $task['title'] = $request->title;
@@ -116,6 +125,13 @@ class ManagerController extends Controller
     }
 
         public function edit_task(Request $request){
+            /*$request->validate([
+                'title'=>'required|min:5|max:30',
+                'description'=>'required|min:5|max:30',
+                'assigned_at'=>'required',
+                'estimated_deadline'=>'required',
+                'worker_id'=>'required',
+               ]);*/
             //return $request->id;
             $task = Task::find($request->id);
             $task['title'] = $request->title;
@@ -152,9 +168,12 @@ class ManagerController extends Controller
 
     }
     public function delete_task($id){
-        
+        $comments = Comment::where('task_id', $id)->delete();
         $task=Task::find($id);
         $result =$task->delete();
+
+        
+
 
         if($result){
             return ["status"=> "The task has been deleted"];
@@ -220,5 +239,26 @@ class ManagerController extends Controller
         $worker_names = User::select('id','name')->where('organization_id',$organisation_id)->where('role_id', 4)->get();
         //$worker_names = DB::table('users')->select('name')->where('id', $request->id)->where('role_id', 4)->get();
         return $worker_names;
+    }
+
+    public function toggle_visibility(Request $request){
+        //return $request->id;
+        $project=Project::find($request->id);
+        
+        if($project['workers_visibility']==1){
+            $project['workers_visibility']=0;
+        }
+        else{
+            $project['workers_visibility']=1;
+        }
+
+        $result=$project->save();
+
+        if($result){
+            return $project['workers_visibility'];
+            
+        }else{
+            return ["status"=>"operation failed"];
+        }
     }
 }
