@@ -69,6 +69,7 @@ class AdminController extends Controller
 
     public function user_data()
     {
+        $organization_count = Organization::count();
         $total_users = User::count();
         $total_admins = User::where('role_id', '=', '1')->count();
         $total_directors = User::where('role_id', '=', '2')->count();
@@ -76,6 +77,7 @@ class AdminController extends Controller
         $total_workers = User::where('role_id', '=', '4')->count();
 
         $data = [
+            'organization_count' => $organization_count,
             'total_users' => $total_users,
             'total_admins' => $total_admins,
             'total_directors' => $total_directors,
