@@ -84,12 +84,12 @@ class ManagerController extends Controller
         $project_id = $request->query('id');
 
         $tasks = DB::table('tasks')->where('project_id', $project_id)->get();
-
+        //$tasks=Task::with('users')->where('project_id', $project_id)->get();
+        
         foreach ($tasks as $task) {
             $task->worker_id = User::where('id',$task->worker_id)->value('name');
         }
-        
-        
+
         return $tasks;        
     }
 
