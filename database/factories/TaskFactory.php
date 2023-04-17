@@ -21,7 +21,7 @@ class TaskFactory extends Factory
             $completed=$this->faker->dateTimeBetween($assigned,'now');
         }
         return [
-            'title' => $this->faker->sentence(5),
+            'title' => $this->faker->sentence(4),
             'description' => $this->faker->paragraph(2,true),
             'assigned_at'=>$assigned,
             'estimated_deadline'=>$this->faker->dateTimeBetween($assigned,'2 weeks'),
