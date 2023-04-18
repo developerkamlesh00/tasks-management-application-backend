@@ -62,6 +62,10 @@ class AdminController extends Controller
             ->where('users.role_id', '=', '4')
             ->get();
 
+            // $workers = User::where('role_id', 4)
+            // ->with('organization')
+            // ->get(['*', 'organizations.org_name as organization_name']);
+
         return $workers;
     }
     
