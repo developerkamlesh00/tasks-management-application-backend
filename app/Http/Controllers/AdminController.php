@@ -33,27 +33,38 @@ class AdminController extends Controller
     public function get_directors()
     {
         $directors = DB::table('users')
-            ->where('role_id', '=', '2')
+            ->join('organizations', 'users.organization_id', '=', 'organizations.id')
+            ->select('users.*', 'organizations.org_name as organization_name')
+            ->where('users.role_id', '=', '2')
             ->get();
+
         return $directors;
     }
+
+    
 
     public function get_managers()
     {
         $managers = DB::table('users')
-            ->where('role_id', '=', '3')
+            ->join('organizations', 'users.organization_id', '=', 'organizations.id')
+            ->select('users.*', 'organizations.org_name as organization_name')
+            ->where('users.role_id', '=', '3')
             ->get();
+
         return $managers;
     }
 
     public function get_workers()
     {
         $workers = DB::table('users')
-            ->where('role_id', '=', '4')
+            ->join('organizations', 'users.organization_id', '=', 'organizations.id')
+            ->select('users.*', 'organizations.org_name as organization_name')
+            ->where('users.role_id', '=', '4')
             ->get();
+
         return $workers;
     }
-
+    
     public function get_organization_members($organization_id)
     {
         $members = DB::table('users')
