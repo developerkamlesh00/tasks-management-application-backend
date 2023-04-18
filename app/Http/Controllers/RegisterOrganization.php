@@ -34,14 +34,14 @@ class RegisterOrganization extends Controller
             $input = $request->only('org_name', 'org_email');
             $organization = Organization::create($input);
             $input = $request->only('name', 'email', 'password');
-            // $temppass = $input['password'];
+            $temppass = $input['password'];
             $input['password'] = bcrypt($input['password']);
             $input['organization_id'] = $organization->id;
             $input['role_id'] = 2;
 
             $user = User::create($input);
 
-            //Mail::to($user)->queue(new OrganizationRegister($organization,$user,$input['password']));
+            Mail::to($user)->queue(new OrganizationRegister($organization,$user,$temppass));
 
             $resposeArray = [];
             $resposeArray['token'] = $user->createToken('DirectorToken')->accessToken;

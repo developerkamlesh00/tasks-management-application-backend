@@ -167,5 +167,21 @@ class DirectorSectionTest extends TestCase
         $user->delete(); //delete user then check its available or not
         $this->assertModelMissing($user);
     }
+
+    public function testDeleteManager()
+    {
+        $user = User::find(2);
+        $manager = User::find(10);
+        $response = $this->post("api/admin/users/$manager->id", $this->headers($user));
+        $response->assertStatus(200);
+    }
+
+    public function testDeleteWorker()
+    {
+        $user = User::find(2);
+        $worker = User::find(22);
+        $response = $this->post("api/admin/users/$worker->id", $this->headers($user));
+        $response->assertStatus(200);
+    }
     
 }
