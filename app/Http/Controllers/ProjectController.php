@@ -12,25 +12,7 @@ use Validator;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -56,40 +38,17 @@ class ProjectController extends Controller
         $input = $request->all();
 
         //uncomment when project is completed
-        // $user = User::findOrFail($input['manager_id']);
-        // Mail::to($user)->queue(new ProjectCreated($input, $user)); //for email sending
+        $user = User::findOrFail($input['manager_id']);
+        Mail::to($user)->queue(new ProjectCreated($input, $user)); //for email sending
 
 
         Project::create($input);
         return response()->json("Project Created", 200);
     }
 
-
     //get all projects related to organization
     public function getProjects($org){
         return Project::with('user')->where("organization_id","=",$org)->get();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
     }
 
     /**
@@ -129,8 +88,6 @@ class ProjectController extends Controller
         return response()->json($project,200);
         
     }
-
-    
 
     /**
      * Remove the specified resource from storage.
