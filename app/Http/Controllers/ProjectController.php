@@ -61,7 +61,7 @@ class ProjectController extends Controller
 
 
         Project::create($input);
-        return response()->json("Project Created", 200);
+        return response()->json("Project Created", 201);
     }
 
 
