@@ -4,7 +4,6 @@
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RegisterOrganization;
 use App\Http\Controllers\TaskController;
