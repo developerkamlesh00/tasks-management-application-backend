@@ -9,30 +9,10 @@ use PDO;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     public function task_comments($task_id){
         $comments=Comment::with('user')->where('task_id' , '=', $task_id)->orderBy('created_at','DESC')->get();
         return $comments;
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -52,31 +32,8 @@ class CommentController extends Controller
         }
         $input = $request->all();
         Comment::create($input);
-        return response()->json("Comment Created", 200);
+        return response()->json("Comment Created", 201);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -90,7 +47,6 @@ class CommentController extends Controller
         $validator = Validator::make($request->all(), [
             'body' => 'required',
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
@@ -100,7 +56,6 @@ class CommentController extends Controller
         $comment["updated_at"] = now();
         return response()->json($comment,200);
     }
-
     /**
      * Remove the specified resource from storage.
      *

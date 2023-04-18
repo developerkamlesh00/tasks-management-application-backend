@@ -243,8 +243,8 @@ class UserController extends Controller
         }
         
         $input = $request->all();
-        if(DB::table('users')->where('id','!=',$id)->where('email',$input['email'])->exists()){
-            return response()->json(['message' => 'This Email Alredy Exist for another user'], 400);
+        if(DB::table('users')->where('email',$input['email'])->where('id','!=',$id)->exists()){
+            return response()->json(['message' => 'This Email Already Exist for another user'], 400);
         }
 
         if(!DB::table('users')->where('id',$id)->exists()){
