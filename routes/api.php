@@ -53,20 +53,26 @@ Route::middleware('auth:api')->prefix('/director')->name('director.')->group(fun
 });
 
 
-
 Route::middleware('auth:api')->prefix('/admin')->name('admin.')->group(function () {
     // Get organizations,directors,managers,workers,all member of organization
     Route::get('/organizations', [AdminController::class, 'get_organizations']);
     Route::get('/directors', [AdminController::class, 'get_directors']);
     Route::get('/managers', [AdminController::class, 'get_managers']);
     Route::get('/workers', [AdminController::class, 'get_workers']);
+
+    Route::get('/user-data', [AdminController::class, 'user_data']);
+    Route::get('/recent-users', [AdminController::class, 'recent_users']);
+   
+    // Route::get('/organizations/{id}/members', [AdminController::class, 'get_organization_members']);
+    //Delete user
+    Route::post('/users/{id}', [AdminController::class, 'destroy']);
+
     Route::get('/organizations/{id}/members', [AdminController::class, 'get_organization_members']);
 });
 // Route::get('/admin/users',[AdminController::class, 'get_users']);
 
 //Delete user
 Route::post('/admin/users/{id}', [AdminController::class, 'destroy']);
-
 
 
 //Manager Controller
