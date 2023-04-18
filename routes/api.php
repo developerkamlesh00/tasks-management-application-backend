@@ -26,10 +26,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['throttle:login'])->group(function () {
+    Route::post('/login', [UserController::class, 'login']);
+    Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
+});
 
-
-Route::post('/login', [UserController::class, 'login']);
-Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
 Route::post('/forgot',[UserController::class, 'forgot']);
 Route::post('/resetpassword',[UserController::class, 'resetPassword']);
 //director section apis calls
