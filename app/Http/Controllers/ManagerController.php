@@ -36,23 +36,13 @@ class ManagerController extends Controller
     }
 
 
-    /*public function single_task(Request $request){
-        $task_id = $request->query('id');
-
-        $task = DB::table('tasks')->where('id', $task_id)->get();
-        return $task;    
-    }*/
-
-
     public function update_project_tasks(Request $request){
         //return $request->id;
 
         $project = Project::find($request->id);
         $total_tasks = Task::all()->where('project_id', $request->id)->count();
         $completed_tasks = Task::all()->where('project_id', $request->id)->where('status_id', 4)->count();
-        /*if($total_tasks==$completed_tasks){
-            $project['completed_at'] = date('Y-m-d H-i-s');
-        }*/
+      
         $project['total_tasks']= $total_tasks;
         $project['tasks_completed']= $completed_tasks;
 
@@ -83,11 +73,10 @@ class ManagerController extends Controller
 
     public function tasks(Request $request){
         $project_id = $request->query('id');
-
-        $tasks = DB::table('tasks')->where('project_id', $project_id)->get();
-        //$tasks=Task::with('users')->where('project_id', $project_id)->get();
         
-        foreach ($tasks as $task) {
+        $tasks = DB::table('tasks')->where('project_id', $project_id)->get();
+      
+       foreach ($tasks as $task) {
             $task->worker_id = User::where('id',$task->worker_id)->value('name');
         }
 
