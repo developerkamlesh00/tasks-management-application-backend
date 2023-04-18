@@ -12,11 +12,9 @@ use Illuminate\Support\Facades\DB;
 class ManagerController extends Controller
 {
     public function projects(Request $request){
-       //return ["name"=>"name1", "dest"=>"dest1"];
-
+   
        $managerId= $request->query('manager');
-       //return $managerId;
-       
+
       $projects=Project::all()->where('manager_id', $managerId);
        return $projects;
     }
@@ -52,6 +50,9 @@ class ManagerController extends Controller
         $project = Project::find($request->id);
         $total_tasks = Task::all()->where('project_id', $request->id)->count();
         $completed_tasks = Task::all()->where('project_id', $request->id)->where('status_id', 4)->count();
+        /*if($total_tasks==$completed_tasks){
+            $project['completed_at'] = date('Y-m-d H-i-s');
+        }*/
         $project['total_tasks']= $total_tasks;
         $project['tasks_completed']= $completed_tasks;
 
@@ -94,8 +95,6 @@ class ManagerController extends Controller
     }
 
     public function add_task(Request $request){
-        //return ["Result"=>"data has been saved"];
-       //return $request;
 
       /* $request->validate([
         'title'=>'required|min:5|max:30',
@@ -148,22 +147,6 @@ class ManagerController extends Controller
             $task['review_passed'] = 0;
 
             $result = $task->save();
-
-
-        //return ["Result"=>"data has been saved"];
-       //return $request;
-        /*$task = new Task;
-       
-        $task['title'] = $request->title;
-        $task['description'] = $request->description;
-        $task['worker_id'] = $request->workerId;
-        $task['assigned_at'] = $request->assignedDate;
-        $task['estimated_deadline'] = $request->estimatedDeadline;
-        $task['review_passed'] = 0;
-        $task['status_id'] = 1;
-        $task['project_id'] =$request->projectId;
-        $result = $task->save();
-*/
         if($result){
             return ["status"=> "Your data has been updated"];
         }
@@ -206,12 +189,21 @@ class ManagerController extends Controller
     }
 
     public function approve_task(Request $request){
+        $project=Project::find($request->projId);
         $task = Task::find($request->id);
 
         $task['status_id']=4;
         $task['review_passed']=1;
 
         $result = $task->save();
+
+        $total_tasks = Task::all()->where('project_id', $request->id)->count();
+        $completed_tasks = Task::all()->where('project_id', $request->id)->where('status_id', 4)->count();
+
+        if($total_tasks == $completed_tasks){
+            $project['completed_at'] = date('Y-m-d H-i-s');
+            $project->save();
+        }
 
         if($result){
             return ["status"=>"task approved successfully"];
