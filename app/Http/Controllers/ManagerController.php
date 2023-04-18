@@ -197,13 +197,14 @@ class ManagerController extends Controller
 
         $result = $task->save();
 
-        $total_tasks = Task::all()->where('project_id', $request->id)->count();
-        $completed_tasks = Task::all()->where('project_id', $request->id)->where('status_id', 4)->count();
+        $total_tasks = Task::all()->where('project_id', $request->projId)->count();
+        $completed_tasks = Task::all()->where('project_id', $request->projId)->where('status_id', 4)->count();
 
-        if($total_tasks == $completed_tasks){
+        if($total_tasks === $completed_tasks){
             $project['completed_at'] = date('Y-m-d H-i-s');
             $project->save();
         }
+     
 
         if($result){
             return ["status"=>"task approved successfully"];
