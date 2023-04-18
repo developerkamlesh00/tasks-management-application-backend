@@ -8,6 +8,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RegisterOrganization;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ManagerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
