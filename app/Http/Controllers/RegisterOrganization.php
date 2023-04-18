@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrganizationRegister;
 use App\Models\Organization;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class RegisterOrganization extends Controller
@@ -31,13 +33,15 @@ class RegisterOrganization extends Controller
 
             $input = $request->only('org_name', 'org_email');
             $organization = Organization::create($input);
-
             $input = $request->only('name', 'email', 'password');
+            // $temppass = $input['password'];
             $input['password'] = bcrypt($input['password']);
             $input['organization_id'] = $organization->id;
             $input['role_id'] = 2;
 
             $user = User::create($input);
+
+            //Mail::to($user)->queue(new OrganizationRegister($organization,$user,$input['password']));
 
             $resposeArray = [];
             $resposeArray['token'] = $user->createToken('DirectorToken')->accessToken;

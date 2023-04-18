@@ -26,10 +26,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['throttle:login'])->group(function () {
+    Route::post('/login', [UserController::class, 'login']);
+    Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
+});
 
-
-Route::post('/login', [UserController::class, 'login']);
-Route::get('/login', [UserController::class, 'login'])->name('login'); //if not auth or first login
 Route::post('/forgot',[UserController::class, 'forgot']);
 Route::post('/resetpassword',[UserController::class, 'resetPassword']);
 //director section apis calls
@@ -66,27 +67,29 @@ Route::middleware('auth:api')->prefix('/admin')->name('admin.')->group(function 
     //Delete user
     Route::post('/users/{id}', [AdminController::class, 'destroy']);
 });
-
+// Route::get('/admin/users',[AdminController::class, 'get_users']);
 
 
 
 // Not to be used
 // Route::get('/tasks',[TaskController::class, 'all_tasks']);
+Route::middleware('auth:api')->prefix('/worker')->name('worker.')->group(function(){
 
 // Get all tasks of a worker (from all projects)
-Route::get('/worker/{worker_id}/tasks', [TaskController::class, 'worker_tasks']);
-// Get all tasks of a particular project - For a manager
-Route::get('/project/{project_id}/tasks', [TaskController::class, 'project_tasks']);
+Route::get('/{worker_id}/tasks',[TaskController::class, 'worker_tasks']);
 // Get all tasks belonging to one project - For a worker
-Route::get('/worker/{worker_id}/project/{project_id}/tasks',[TaskController::class, 'worker_project_tasks']);
-Route::get('/worker/{worker_id}/project',[TaskController::class, 'worker_projects']);
-
+Route::get('/{worker_id}/project/{project_id}/tasks',[TaskController::class, 'worker_project_tasks']);
+Route::get('/{worker_id}/project',[TaskController::class, 'worker_projects']);
+// Get all tasks of a particular project - For a manager
+Route::get('/project/{project_id}/tasks',[TaskController::class, 'project_tasks']);
 // Change Task Status
 Route::post('update_status/task/{task_id}/status/{status_id}',[TaskController::class, 'update_status']);
 
 
 //Comments for a particular Task
-Route::get('task/{task_id}/comments',[CommentController::class, 'task_comments']);
+Route::get('/task/{task_id}/comments',[CommentController::class, 'task_comments']);
 Route::post('/comments',[CommentController::class, 'store']);
-Route::put('comments/{comment_id}',[CommentController::class, 'update']);
+Route::put('/comments/{comment_id}',[CommentController::class, 'update']);
 Route::delete('/comments/{comment_id}',[CommentController::class, 'destroy']);
+});
+
