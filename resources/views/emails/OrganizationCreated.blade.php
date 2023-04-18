@@ -7,3 +7,4 @@
 <p>Organization Email : {{ $organization->org_email }}</p>
 <p>Your Name as Director : {{ $user->name }}</p>
 <p>Your Email : {{ $user->email }}</p>
+<p>Your Password : {{ $password }}</p>
