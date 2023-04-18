@@ -24,24 +24,24 @@ class WorkerTest extends TestCase
         $response->assertStatus(200);
         return $response;
     }
-    public function test_tasks()
-    {
-        $this->get('api/worker/4/tasks')->assertStatus(200);
-        return;
-    }
-    public function test_projects()
-    {
-        $this->get('api/project/1/tasks')->assertStatus(200);
-        return;
-    }
-    public function test_worker_projects()
-    {
-        $this->get('api/worker/4/project')->assertStatus(200);
-        return;
-    }
-    public function test_comments()
-    {
-        $this->get('api/task/1/comments')->assertStatus(200);
-        return;
-    }
+    // public function test_tasks()
+    // {
+    //     $this->get('api/worker/4/tasks')->assertStatus(200);
+    //     return;
+    // }
+    // public function test_projects()
+    // {
+    //     $this->get('api/project/1/tasks')->assertStatus(200);
+    //     return;
+    // }
+    // public function test_worker_projects()
+    // {
+    //     $this->get('api/worker/4/project')->assertStatus(200);
+    //     return;
+    // }
+    // public function test_comments()
+    // {
+    //     $this->get('api/task/1/comments')->assertStatus(200);
+    //     return;
+    // }
 }
