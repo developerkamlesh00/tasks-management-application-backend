@@ -162,6 +162,16 @@ class AdminController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
+        if($id == 2){
+            $org = Organization::where('id',$user->organization_id)->first(); // Use `first()` instead of `get()` as we only need one organization object
+            $users = User::where('organization_id','=',$org->id)->get();
+            foreach ($users as $user) {
+                $user->delete();
+            }
+            $org->delete();
+            return response()->json(['message' => 'Organization and its users have been deleted.']);
+        }
+        
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully.']);
