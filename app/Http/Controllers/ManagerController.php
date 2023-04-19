@@ -14,8 +14,7 @@ class ManagerController extends Controller
     public function projects(Request $request){
    
        $managerId= $request->query('manager');
-
-      $projects=Project::all()->where('manager_id', $managerId);
+       $projects=Project::all()->where('manager_id', $managerId);
        return $projects;
     }
 
