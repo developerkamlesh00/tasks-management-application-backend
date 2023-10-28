@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\ForgotPassMail;
 use App\Mail\UserCreated;
-
 use App\Models\User;
 use Exception;
 use Facade\FlareClient\Http\Response;
@@ -14,7 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -67,6 +67,7 @@ class UserController extends Controller
         Mail::to($user)->queue(new UserCreated($user->name,$user->email,$temppass)); //for email sending
 
         $resposeArray = [];
+        /** @var \App\Models\User $user **/
         $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
         $resposeArray['name'] = $user->name;
         $resposeArray['userId'] = $user->id;
@@ -104,6 +105,7 @@ class UserController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $resposeArray = [];
+             /** @var \App\Models\User $user **/
             $resposeArray['token'] = $user->createToken('UserToken')->accessToken;
             $resposeArray['name'] = $user->name;
             $resposeArray['role'] = $user->role->role_name;

@@ -8,7 +8,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Nette\Utils\Json;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {

@@ -8,6 +8,9 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
+use function GuzzleHttp\Promise\all;
 
 class ManagerController extends Controller
 {
@@ -19,11 +22,11 @@ class ManagerController extends Controller
     }
 
     public function workers(Request $request){
-        $managerId= $request->query('manager'); //3
+        $managerId= $request->query('manager'); 
 
-        $organisationId = DB::table('users')->where('id', $managerId)->value('organization_id'); //2
+        $organisationId = DB::table('users')->where('id', $managerId)->value('organization_id'); 
     
-        $workers = User::all()->where('role_id', '4')->where('organization_id', $organisationId); //
+        $workers = User::all()->where('role_id', '4')->where('organization_id', $organisationId); 
         return $workers;
     }
 
@@ -31,12 +34,14 @@ class ManagerController extends Controller
         $project_id = $request->query('id');
 
         $project = DB::table('projects')->where('id', $project_id)->get();
+        //$project = Project::where('id', $project_id)->first();
+
         return $project;    
     }
 
 
     public function update_project_tasks(Request $request){
-        //return $request->id;
+        
 
         $project = Project::find($request->id);
         $total_tasks = Task::all()->where('project_id', $request->id)->count();
@@ -84,13 +89,15 @@ class ManagerController extends Controller
 
     public function add_task(Request $request){
 
-      /* $request->validate([
-        'title'=>'required|min:5|max:30',
-        'description'=>'required|min:5|max:30',
-        'assigned_at'=>'required',
-        'estimated_deadline'=>'required',
-        'worker_id'=>'required',
-       ]);*/
+        $validation=Validator::make($request->all(),[
+            'title'=>'required|min:5|max:30',
+            'description'=>'required|min:5|max:30',
+            'assigned_at'=>'required',
+            'estimated_deadline'=>'required',
+            'worker_id'=>'required',
+       ]);
+
+       if($validation){;
         $task = new Task;
        
         $task['title'] = $request->title;
@@ -107,34 +114,44 @@ class ManagerController extends Controller
         $project['total_tasks'] = $project['total_tasks']+1;
 
         $result2=$project->save();
+       
         if($result && $result2){
             return ["status"=> "Your data has been saved"];
         }
         else{
             return ["status"=> "operation failed"];
         }
-
+    }
+    else{
+        return ["status"=> "operation failed"];
+    }
 
     }
 
         public function edit_task(Request $request){
-            /*$request->validate([
+           $validation=Validator::make($request->all(),[
                 'title'=>'required|min:5|max:30',
                 'description'=>'required|min:5|max:30',
                 'assigned_at'=>'required',
                 'estimated_deadline'=>'required',
                 'worker_id'=>'required',
-               ]);*/
+           ]);
             //return $request->id;
-            $task = Task::find($request->id);
-            $task['title'] = $request->title;
-            $task['description'] = $request->description;
-            $task['worker_id'] = $request->workerId;
-            $task['assigned_at'] = $request->assignedDate;
-            $task['estimated_deadline'] = $request->estimatedDeadline;
-            $task['review_passed'] = 0;
+            if($validation){
+                $task = Task::find($request->id);
+                $task['title'] = $request->title;
+                $task['description'] = $request->description;
+                $task['worker_id'] = $request->workerId;
+                $task['assigned_at'] = $request->assignedDate;
+                $task['estimated_deadline'] = $request->estimatedDeadline;
+                $task['review_passed'] = 0;
+    
+                $result = $task->save();    
+            }
+            else {
+                return ["status"=> "Task failed"];
+            }
 
-            $result = $task->save();
         if($result){
             return ["status"=> "Your data has been updated"];
         }
@@ -149,9 +166,6 @@ class ManagerController extends Controller
         $task=Task::find($id);
         $result =$task->delete();
 
-        
-
-
         if($result){
             return ["status"=> "The task has been deleted"];
         }
@@ -163,16 +177,15 @@ class ManagerController extends Controller
    
 
     public function review_task(Request $request){
-        //return $request->id;
+       
         $manager_id= $request->id;
         $assigned_projects=Project::all()->where('manager_id', $manager_id); 
         $assigned_tasks=[];
         foreach($assigned_projects as $assigned_project){
             $assigned_temp_tasks=Task::all()->where('project_id', $assigned_project->id)->where('status_id',3);
-            //$assigned_tasks=$assigned_temp_tasks
             $assigned_tasks[]=array($assigned_temp_tasks);
         }
-        //$assigned_tasks=DB::table('tasks')->where('worker_id', $id)->get();
+       
         return $assigned_tasks;
     }
 
@@ -219,17 +232,16 @@ class ManagerController extends Controller
     }
     
     public function worker_names(Request $request){
-        //return $request->id;
+       
         $organisation_id = User::where('id',$request->id)->value('organization_id');
-        //return $organisation_id;
+      
         
         $worker_names = User::select('id','name')->where('organization_id',$organisation_id)->where('role_id', 4)->get();
-        //$worker_names = DB::table('users')->select('name')->where('id', $request->id)->where('role_id', 4)->get();
         return $worker_names;
     }
 
     public function toggle_visibility(Request $request){
-        //return $request->id;
+     
         $project=Project::find($request->id);
         
         if($project['workers_visibility']==1){

@@ -9,10 +9,12 @@ use PDO;
 
 class CommentController extends Controller
 {
+
     public function task_comments($task_id){
         $comments=Comment::with('user')->where('task_id' , '=', $task_id)->orderBy('created_at','DESC')->get();
         return $comments;
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -26,7 +28,7 @@ class CommentController extends Controller
             'user_id' => 'required',
             'task_id' => 'required'
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
