@@ -68,12 +68,12 @@ class AdminSectionTest extends TestCase
     }
 
     
-    // public function testDeleteManager()
-    // {
-    //     $user = User::find(1);
-    //     $response = $this->post("api/admin/users/5", $this->headers($user));
-    //     $response->assertStatus(200);
+    public function testDeleteManager()
+    {
+        $user = User::find(1);
+        $response = $this->post("api/admin/users/5", $this->headers($user));
+        $response->assertStatus(200);
       
-    // }
+    }
     
 }

@@ -69,7 +69,7 @@ class UserController extends Controller
               $insertuser->role_id = $user['role_id'];
               $insertuser->organization_id = $user['organization_id'];
               $insertuser->save();
-              //Mail::to($user['email'])->queue(new UserCreated($user['name'],$user['email'],$user['password'])); //for email sending
+              Mail::to($user['email'])->queue(new UserCreated($user['name'],$user['email'],$user['password'])); //for email sending
           }
           return response("Done");
       }catch(Exception $e){

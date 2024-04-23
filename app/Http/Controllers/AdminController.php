@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\User;
+use Egulias\EmailValidator\Exception\ConsecutiveAt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -91,6 +92,13 @@ class AdminController extends Controller
         $total_managers = User::where('role_id', '=', '3')->count();
         $total_workers = User::where('role_id', '=', '4')->count();
 
+        // $results = User::selectRaw('COUNT(*) as total_users, 
+        //                     COUNT(CASE WHEN role_id = 1 THEN 1 END) as total_admins,
+        //                     COUNT(CASE WHEN role_id = 2 THEN 1 END) as total_directors,
+        //                     COUNT(CASE WHEN role_id = 3 THEN 1 END) as total_managers,
+        //                     COUNT(CASE WHEN role_id = 4 THEN 1 END) as total_workers')
+        //         ->get();
+
         $data = [
             'organization_count' => $organization_count,
             'total_users' => $total_users,
@@ -161,9 +169,17 @@ class AdminController extends Controller
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);
         }
-
+        
+        if($id == 2){
+            $org = Organization::where('id',$user->organization_id)->first(); // Use `first()` instead of `get()` as we only need one organization object
+            $users = User::where('organization_id','=',$org->id)->get();
+            foreach ($users as $user) {
+                $user->delete();
+            }
+            $org->delete();
+            return response()->json(['message' => 'Organization and its users have been deleted.']);
+        }
         $user->delete();
-
         return response()->json(['message' => 'User deleted successfully.']);
     }
 }
