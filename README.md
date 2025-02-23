@@ -1,3 +1,4 @@
+![Alt](https://repobeats.axiom.co/api/embed/f1ecf9bef964c354bc9e9fb484b356fdc25230c6.svg "Repobeats analytics image")
 
 <h1>Installation Steps</h1>
 <h3>install Composer </h3>
